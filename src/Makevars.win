@@ -1,0 +1,26 @@
+
+SDIR = .
+
+#
+
+YOG_OPENMP_FLAGS=$(SHLIB_OPENMP_CXXFLAGS) -DYOG_USE_OPENMP
+
+PKG_CXXFLAGS= $(CXX11STD) $(YOG_OPENMP_FLAGS) -DUSE_RCPP_ARMADILLO -I.
+PKG_LIBS= $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+CXX_STD=CXX11
+
+#
+# sources and objects
+
+SOURCES_R= ./ipfp_R.cpp ./msa_R.cpp
+OBJECTS_R= $(SOURCES_R:.cpp=.o)
+
+#
+
+all: $(SHLIB) libyogurts.Rcpp.dll
+
+# some trickery to work around R's desire to link with gcc instead of g++
+
+libyogurts.Rcpp.dll: $(OBJECTS_R)
+	$(SHLIB_CXXLD) -shared -s -static-libstdc++ -static-libgcc $(SHLIB_OPENMP_CXXFLAGS) -o yogurts.dll $(OBJECTS_R) $(SHLIB_CXXLDFLAGS) $(ALL_LIBS)

@@ -1,0 +1,30 @@
+
+SDIR = .
+
+#
+# Check for the default Apple compiler, where we pass CXX to recognise R's settings
+APPLE_COMPILER := $(shell CXX11='$(CXX)' $(CXX11) --version 2>&1 | grep -i -c -E 'apple llvm')
+
+ifeq ($(APPLE_COMPILER),0)
+    YOG_OPENMP_FLAGS=$(SHLIB_OPENMP_CXXFLAGS) -DYOG_USE_OPENMP
+else
+    YOG_OPENMP_FLAGS=
+endif
+
+PKG_CXXFLAGS= $(CXX11STD) $(YOG_OPENMP_FLAGS) -DUSE_RCPP_ARMADILLO -I$(SDIR) -I$(GEO_INCLUDE_PATH)
+PKG_LIBS= $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -L$(GEO_LIB_PATH) -lgeogram -lexploragram
+
+CXX_STD=CXX11
+
+#
+# sources and objects
+
+SOURCES_R= ./geogram.cpp ./geogram_R.cpp ./ipfp_R.cpp ./msa_R.cpp
+OBJECTS_R= $(SOURCES_R:.cpp=.o)
+
+#
+
+all: $(SHLIB) libyogurts.Rcpp$(SHLIB_EXT)
+
+libyogurts.Rcpp$(SHLIB_EXT): $(OBJECTS_R)
+	$(SHLIB_CXX11LD) $(SHLIB_OPENMP_CXXFLAGS) $(SHLIB_CXX11LDFLAGS) -o yogurts$(SHLIB_EXT) $(OBJECTS_R) $(ALL_LIBS)
