@@ -50,7 +50,4 @@ RcppExport SEXP ipfp_lse_R(SEXP obs_choice_prob_R, SEXP eps_mat_R,
 RcppExport SEXP ipfp_arum_R(SEXP obs_choice_prob_R, SEXP eps_mat_R, 
                             SEXP ipfp_temper_R, SEXP err_tol_R, SEXP max_iter_R);
 
-RcppExport SEXP OTM2D_R(SEXP eps_mat_R);
-RcppExport SEXP OTM3D_R(SEXP eps_mat_R);
-
 #endif

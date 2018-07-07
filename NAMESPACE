@@ -2,4 +2,4 @@ useDynLib(yogurts)
 
 importFrom(Rcpp, evalCpp)
 
-export(ipfp,ipfp_lse,ipfp_arum,msa,otm2D,otm3D)
+export(ipfp,ipfp_lse,ipfp_arum,msa)
