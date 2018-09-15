@@ -23,9 +23,7 @@
   ################################################################################*/
 
 //
-// general ipfp
-
-using uint_t = unsigned int;
+// IPFP for the linear model
 
 inline
 double
@@ -299,7 +297,7 @@ root_fn_lse_long(const T val_inp, void* opt_data)
     //
 
     T term_1 = temper_par * std::log( running_sum );
-    T term_2 = max_diff - temper_par*std::log(d->N*d->s_vec(d->j));
+    T term_2 = max_diff - temper_par*std::log( d->N * d->s_vec(d->j) );
 
     //
 
